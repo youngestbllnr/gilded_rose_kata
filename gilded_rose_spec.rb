@@ -122,7 +122,8 @@ RSpec.describe "GildedRose" do
   context "Conjured Items" do
     let!(:items) do
       [
-        Item.new("Conjured Mana Cake", 3, 6)
+        Item.new("Conjured Mana Cake", 3, 6),
+        Item.new("Conjured Mana Cake", 0, 6)
       ]
     end
 
@@ -131,6 +132,13 @@ RSpec.describe "GildedRose" do
 
       expect(items[0].sell_in).to eq 2
       expect(items[0].quality).to eq 4
+    end
+
+    it "should decrease sell_in by 1 and quality by 4 when sell_in is less than or equal to 0" do
+      update_quality(items)
+
+      expect(items[1].sell_in).to eq -1
+      expect(items[1].quality).to eq 2
     end
   end
 

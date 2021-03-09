@@ -45,7 +45,11 @@ def get_quality_increment(item, item_type)
     when "Aged Brie"
       1
     when "Conjured Item"
-      -2
+      if item.sell_in > 0
+        -2
+      else
+        -4
+      end
     when "Backstage Pass"
       get_pass_increment(item)
     when "Item Past Sell Date"
