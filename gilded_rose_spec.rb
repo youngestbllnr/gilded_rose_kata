@@ -53,7 +53,8 @@ RSpec.describe "GildedRose" do
   context "Aged Brie" do
     let!(:items) do
       [
-        Item.new("Aged Brie", 2, 0)
+        Item.new("Aged Brie", 2, 0),
+        Item.new("Aged Brie", 0, 0)
       ]
     end
 
@@ -62,6 +63,13 @@ RSpec.describe "GildedRose" do
 
       expect(items[0].sell_in).to eq 1
       expect(items[0].quality).to eq 1
+    end
+
+    it "should decrease sell_in by 1 and increase quality by 2 when sell_in is less than or equal to 0 (zero or negative)" do
+      update_quality(items)
+
+      expect(items[1].sell_in).to eq -1
+      expect(items[1].quality).to eq 2
     end
   end
 

@@ -43,7 +43,11 @@ end
 def get_quality_increment(item, item_type)
   case item_type
     when "Aged Brie"
-      1
+      if item.sell_in > 0
+        1
+      else
+        2
+      end
     when "Conjured Item"
       if item.sell_in > 0
         -2
