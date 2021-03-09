@@ -1,11 +1,11 @@
 def update_quality(items)
   items.each do |item|
-    item_type = get_item_type(item)
+    item_type = item_type(item)
     quality_limit_reached = past_quality_limits?(item, item_type)
 
     unless item_type == "Legendary Item"
       unless quality_limit_reached
-        item.quality += get_quality_increment(item, item_type)
+        item.quality += quality_increment(item, item_type)
         item.quality = 0 if item.quality < 0
       end
       item.sell_in -= 1
@@ -14,7 +14,7 @@ def update_quality(items)
 end
 
 #RETURNS ITEM TYPE
-def get_item_type(item)
+def item_type(item)
   case
     when item.name.include?("Aged Brie")
       "Aged Brie"
@@ -40,7 +40,7 @@ def past_quality_limits?(item, type)
   end
 end
 
-def get_quality_increment(item, item_type)
+def quality_increment(item, item_type)
   case item_type
     when "Aged Brie"
       if item.sell_in > 0
@@ -55,7 +55,7 @@ def get_quality_increment(item, item_type)
         -4
       end
     when "Backstage Pass"
-      get_pass_increment(item)
+      pass_increment(item)
     when "Item Past Sell Date"
       -2
     else
@@ -63,7 +63,7 @@ def get_quality_increment(item, item_type)
     end
 end
 
-def get_pass_increment(pass)
+def pass_increment(pass)
   case
     when pass.sell_in.between?(0, 6)
       3
